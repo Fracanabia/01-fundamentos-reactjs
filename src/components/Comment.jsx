@@ -1,8 +1,18 @@
 import { ThumbsUp, Trash } from 'phosphor-react';
-import styles from './Comment.module.css';
+import { useState } from 'react';
 import { Avatar } from './Avatar';
+import styles from './Comment.module.css';
 
-export const Comment = () => {
+export const Comment = ({ content, onDeleteComment }) => {
+  const [likeCount, setLikeCount] = useState(0);
+
+  const handleDeleteComment = () => {
+    onDeleteComment(content);
+  };
+
+  const handleLikeComment = () => {
+    setLikeCount((state) => state + 1);
+  };
   return (
     <div className={styles.comment}>
       <Avatar hasBorder={false} src="https://github.com/fracanabia.png" />
@@ -13,22 +23,25 @@ export const Comment = () => {
               <strong>
                 Wesley Fracanábia <span>(você)</span>
               </strong>
-              <time title="11 de Novembro de 2024 ás 08:00" dateTime="2024-11-11 08:00:00">
+              <time
+                title="11 de Novembro de 2024 ás 08:00"
+                dateTime="2024-11-11 08:00:00"
+              >
                 Cerca de 2h atrás
               </time>
             </div>
-            <button title="Deletar comentário">
+            <button onClick={handleDeleteComment} title="Deletar comentário">
               <Trash size={24} />
             </button>
           </header>
 
-          <p>Muito bom Devon, parabéns!! 👏👏</p>
+          <p>{content}</p>
         </div>
 
         <footer>
-          <button title="Deletar comentário">
+          <button onClick={handleLikeComment}>
             <ThumbsUp size={20} />
-            Aplaudir <span>20</span>
+            Aplaudir <span>{likeCount}</span>
           </button>
         </footer>
       </div>
